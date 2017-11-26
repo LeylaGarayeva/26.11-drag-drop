@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Drag-Drop</title>
+    <style>
+        div {
+            width: 400px;
+            height: 200px;
+            border: 3px solid red;
+            float: left;
+        }
+
+        img {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="first-div">
+        <img draggable="true" id="image-1" src="poster.jpg">
+    </div>
+    <div id="second-div">
+            <img draggable="true" id="image-2" src="fil.jpg">
+    </div>
+    <div id="third-div"></div>
+    <script>
+        // var myImg = document.getElementById("image-1");
+        // var firstDiv = document.getElementById("first-div");
+        // var secondDiv = document.getElementById("second-div");
+
+        // myImg.ondragstart = function (evt){
+        //     evt.dataTransfer.setData("storedimgid",evt.target.id)
+        //     console.log("img started drag..." + evt.target.id)
+        // }
+
+        // secondDiv.ondragover=function(evt){
+        //     evt.preventDefault()
+        //     console.log("second div drag overed")
+        //     //secondDiv.style.border="3px dashed grey"
+        // }
+
+        // secondDiv.ondrop = function(evt){
+        //     evt.preventDefault()
+        //     console.log("img dropped");
+        //     var dragedImgId = evt.dataTransfer.getData("storedimgid")
+        //     var droppedImg = document.getElementById(dragedImgId);
+        //     secondDiv.appendChild(droppedImg);
+        // }
+// =================================================================================================================
+
+        var dropZones = document.getElementsByTagName("div");
+        var dropZonesimg = document.getElementsByTagName("img");
+
+        for (var i = 0; i < dropZonesimg.length; i++) {
+            dropZonesimg[i].ondragstart = function (evt){
+            evt.dataTransfer.setData("storedimgid",evt.target.id)
+            //console.log("img started drag..." + evt.target.id)
+         }
+        }
+
+        for (var i = 0; i < dropZones.length; i++) {
+            dropZones[i].ondragover = function (evt) {
+                evt.preventDefault()
+            }
+            dropZones[i].ondrop = function (evt) {
+                evt.preventDefault()
+                var dragedImgId = evt.dataTransfer.getData("storedimgid")
+                var droppedImg = document.getElementById(dragedImgId);
+                //console.log( dropZones+ " "+i--)
+                this.appendChild(droppedImg);
+            }
+           
+        }
+    </script>
+</body>
+
+</html>

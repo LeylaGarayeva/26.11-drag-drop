@@ -1,0 +1,182 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .bg {
+            width: 200px;
+            background: rgb(79, 111, 216);
+            padding: 10px;
+            margin: 10% 25%;
+
+        }
+
+        button {
+            width: 32px;
+            margin: 2px;
+            background: blue;
+            color: white;
+            height: 40px;
+        }
+
+        .col-md-3 {
+            min-height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg">
+        <div class="row">
+            <div class="col-md-3" id="b" data-col="1" data-row="1">
+                <button draggable="true" id="1"></button>
+            </div>
+            <div class="col-md-3" id="c" data-col="2" data-row="1">
+                <button draggable="true" id="2"></button>
+            </div>
+            <div class="col-md-3" id="d" data-col="3" data-row="1">
+                <button draggable="true" id="3"></button>
+            </div>
+            <div class="col-md-3" id="e" data-col="4" data-row="1">
+                <button draggable="true" id="4"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3" id="f" data-col="1" data-row="2">
+                <button draggable="true" id="5"></button>
+            </div>
+            <div class="col-md-3" id="g" data-col="2" data-row="2">
+                <button draggable="true" id="6"></button>
+            </div>
+            <div class="col-md-3" id="h" data-col="3" data-row="2">
+                <button draggable="true" id="7"></button>
+            </div>
+            <div class="col-md-3" id="h" data-col="4" data-row="2">
+                <button draggable="true" id="8"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3" id="u" data-col="1" data-row="3">
+                <button draggable="true" id="9"></button>
+            </div>
+            <div class="col-md-3" id="o" data-col="2" data-row="3">
+                <button draggable="true" id="10"></button>
+            </div>
+            <div class="col-md-3" id="p" data-col="3" data-row="3">
+                <button draggable="true" id="11"></button>
+            </div>
+            <div class="col-md-3" id="q" data-col="4" data-row="3">
+                <button draggable="true" id="12"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3" id="w" data-col="1" data-row="4">
+                <button draggable="true" id="13"></button>
+            </div>
+            <div class="col-md-3" id="n" data-col="2" data-row="4">
+                <button draggable="true" id="14"></button>
+            </div>
+            <div class="col-md-3" id="m" data-col="3" data-row="4">
+                <button draggable="true" id="15"></button>
+            </div>
+            <div class="col-md-3" id="l" data-col="4" data-row="4">
+                <div id="empty">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // var dropZones = document.getElementById("empty");
+        var dropZones = document.getElementsByClassName("col-md-3");
+        var dropZonesbtn = document.getElementsByTagName("button");
+
+
+    
+        for(i=0;i<=14;i++){
+            dropZonesbtn[i].innerText=i+1;
+           
+        }
+
+        for (var i = 0; i < dropZonesbtn.length; i++) {
+            dropZonesbtn[i].ondragstart = function (evt) {
+                evt.dataTransfer.setData("storedimgid", evt.target.id)
+                console.log("btn started drag..." + evt.target.id)
+            }
+        }
+
+        // dropZones.ondragover=function(evt){
+        //     evt.preventDefault()
+        //     console.log(" div drag overed")
+        //     dropZones.style.border="3px dashed grey";
+
+        // }
+
+        // dropZones.ondrop = function(evt){
+        //     evt.preventDefault()
+        //     console.log("btn dropped");
+        //     dropZones.style.padding="0px"
+        //     dropZones.style.width="0px"
+        //     dropZones.style.border="none";
+        //     var dragedImgId = evt.dataTransfer.getData("storedimgid")
+
+
+        //     var droppedImg = document.getElementById(dragedImgId);
+        //     dropZones.appendChild(droppedImg);
+        // }
+
+
+
+        for (var i = 0; i < dropZones.length; i++) {
+            dropZones[i].ondragover = function (evt) {
+                evt.preventDefault()
+            }
+            dropZones[i].ondrop = function (evt) {
+                evt.preventDefault()
+                var dragedImgId = evt.dataTransfer.getData("storedimgid")
+                var droppedImg = document.getElementById(dragedImgId);
+
+
+                var thiscol = $(this).data("col")
+                var thisrow = $(this).data("row")
+
+                var fromCol = $("#" + dragedImgId).closest("div").data("col")
+                var fromRow = $("#" + dragedImgId).closest("div").data("row")
+
+                if ($(this).has("button").length < 1) {
+                    console.log(thisrow - 1 == fromRow)
+
+                    if ((thiscol == fromCol && thisrow - 1 == fromRow) || (thiscol - 1 == fromCol && thisrow == fromRow)|| (thiscol == fromCol && thisrow + 1 == fromRow) || (thiscol + 1 == fromCol && thisrow == fromRow)) {
+
+                        this.appendChild(droppedImg);
+                    }
+
+                }
+
+                console.log(fromCol)
+                console.log(fromRow)
+
+
+            }
+
+        }
+
+
+    </script>
+</body>
+
+</html> 
